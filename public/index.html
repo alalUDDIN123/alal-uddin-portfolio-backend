@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Form - Portfolio</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 1200px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+
+    /* API Documentation Section */
+    .documentation {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .documentation h1 {
+      color: #667eea;
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    .documentation h2 {
+      color: #764ba2;
+      margin-top: 25px;
+      margin-bottom: 12px;
+      font-size: 18px;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 8px;
+    }
+
+    .api-endpoint {
+      background: #f5f5f5;
+      border-left: 4px solid #667eea;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .method {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      color: white;
+      font-weight: bold;
+      margin-right: 8px;
+      font-size: 12px;
+    }
+
+    .method.post {
+      background: #4CAF50;
+    }
+
+    .method.get {
+      background: #2196F3;
+    }
+
+    .method.delete {
+      background: #f44336;
+    }
+
+    .field-list {
+      list-style: none;
+      margin: 15px 0;
+    }
+
+    .field-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .field-list li:last-child {
+      border-bottom: none;
+    }
+
+    .required {
+      color: #f44336;
+      font-weight: bold;
+    }
+
+    .optional {
+      color: #ff9800;
+      font-weight: bold;
+    }
+
+    .code-block {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      margin: 10px 0;
+    }
+
+    /* Contact Form Section */
+    .form-container {
+      background: white;
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .form-container h1 {
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+
+    .form-container p {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .required-badge {
+      color: #f44336;
+      margin-left: 4px;
+    }
+
+    .optional-badge {
+      color: #ff9800;
+      font-size: 12px;
+      margin-left: 4px;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    @media (max-width: 768px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .button-secondary {
+      background: #f5f5f5;
+      color: #667eea;
+      border: 2px solid #667eea;
+      margin-top: 0;
+    }
+
+    .button-secondary:hover {
+      background: #667eea;
+      color: white;
+    }
+
+    .message {
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      display: none;
+      font-size: 14px;
+    }
+
+    .message.success {
+      background: #c8e6c9;
+      color: #2e7d32;
+      border-left: 4px solid #2e7d32;
+    }
+
+    .message.error {
+      background: #ffcdd2;
+      color: #c62828;
+      border-left: 4px solid #c62828;
+    }
+
+    .spinner {
+      display: none;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #667eea;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .button-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .highlight {
+      background: #fff3cd;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #856404;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- API Documentation -->
+    <div class="documentation">
+      <h1>📚 API Documentation</h1>
+
+      <h2>🚀 Getting Started</h2>
+      <p>
+        This contact form connects to a Node.js backend with MongoDB. All form submissions are securely stored in the database.
+      </p>
+
+      <h2>📋 API Base URL</h2>
+      <div class="api-endpoint">
+        http://localhost:8050/api/contact
+      </div>
+
+      <h2>🔗 Endpoints</h2>
+
+      <h3>1. Create Contact (Submit Form)</h3>
+      <div class="api-endpoint">
+        <span class="method post">POST</span> /api/contact
+      </div>
+      <p style="color: #666; font-size: 14px; margin: 10px 0;">Submit a new contact form entry</p>
+
+      <h3>Required & Optional Fields:</h3>
+      <ul class="field-list">
+        <li>
+          <strong>firstname</strong>
+          <span class="required">* Required</span> - User's first name (min 2 characters)
+        </li>
+        <li>
+          <strong>email</strong>
+          <span class="required">* Required</span> - Valid email address (e.g., user@example.com)
+        </li>
+        <li>
+          <strong>message</strong>
+          <span class="required">* Required</span> - Message content (min 5 characters)
+        </li>
+        <li>
+          <strong>lastname</strong>
+          <span class="optional">Optional</span> - User's last name
+        </li>
+        <li>
+          <strong>phone</strong>
+          <span class="optional">Optional</span> - Phone number (min 10 digits)
+        </li>
+      </ul>
+
+      <h3>Request Example:</h3>
+      <div class="code-block">
+{
+  "firstname": "John",
+  "lastname": "Doe",
+  "email": "john@example.com",
+  "phone": "1234567890",
+  "message": "Hello, I'd like to discuss..."
+}
+      </div>
+
+      <h3>Success Response:</h3>
+      <div class="code-block">
+{
+  "success": true,
+  "message": "Contact form submitted successfully",
+  "data": {
+    "_id": "507f1f77bcf86cd799439011",
+    "firstname": "John",
+    "lastname": "Doe",
+    "email": "john@example.com",
+    "phone": "1234567890",
+    "message": "Hello...",
+    "createdAt": "2024-01-17T10:30:00Z"
+  }
+}
+      </div>
+
+      <hr style="margin: 25px 0; border: none; border-top: 1px solid #eee;" />
+
+      <h3>2. Get All Contacts</h3>
+      <div class="api-endpoint">
+        <span class="method get">GET</span> /api/contact
+      </div>
+      <p style="color: #666; font-size: 14px; margin: 10px 0;">Retrieve all contact form submissions</p>
+
+      <h3>3. Get Single Contact</h3>
+      <div class="api-endpoint">
+        <span class="method get">GET</span> /api/contact/:id
+      </div>
+      <p style="color: #666; font-size: 14px; margin: 10px 0;">Retrieve a specific contact by ID</p>
+
+      <h3>4. Delete Contact</h3>
+      <div class="api-endpoint">
+        <span class="method delete">DELETE</span> /api/contact/:id
+      </div>
+      <p style="color: #666; font-size: 14px; margin: 10px 0;">Delete a contact submission</p>
+
+      <h2>💻 Frontend Integration (JavaScript)</h2>
+      <div class="code-block">
+const formData = {
+  firstname: "John",
+  email: "john@example.com",
+  message: "Your message",
+  lastname: "Doe",
+  phone: "1234567890"
+};
+
+fetch('http://localhost:8050/api/contact', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(formData)
+})
+.then(res => res.json())
+.then(data => console.log(data))
+.catch(err => console.error(err));
+      </div>
+
+      <h2>⚠️ Validation Rules</h2>
+      <ul class="field-list">
+        <li>✓ firstname: 2+ characters</li>
+        <li>✓ email: Valid email format</li>
+        <li>✓ message: 5+ characters</li>
+        <li>✓ phone: 10+ digits (if provided)</li>
+      </ul>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="form-container">
+      <h1>Get in Touch</h1>
+      <p>Fill out the form below and we'll get back to you soon!</p>
+
+      <div id="messageDiv" class="message"></div>
+
+      <form id="contactForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstname">
+              First Name
+              <span class="required-badge">*</span>
+            </label>
+            <input type="text" id="firstname" name="firstname" placeholder="John" required />
+          </div>
+          <div class="form-group">
+            <label for="lastname">
+              Last Name
+              <span class="optional-badge">(Optional)</span>
+            </label>
+            <input type="text" id="lastname" name="lastname" placeholder="Doe" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">
+            Email Address
+            <span class="required-badge">*</span>
+          </label>
+          <input type="email" id="email" name="email" placeholder="john@example.com" required />
+        </div>
+
+        <div class="form-group">
+          <label for="phone">
+            Phone Number
+            <span class="optional-badge">(Optional)</span>
+          </label>
+          <input type="tel" id="phone" name="phone" placeholder="1234567890" />
+        </div>
+
+        <div class="form-group">
+          <label for="message">
+            Message
+            <span class="required-badge">*</span>
+          </label>
+          <textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
+        </div>
+
+        <button type="submit">
+          <span class="button-content">
+            <span class="spinner" id="spinner"></span>
+            <span id="buttonText">Send Message</span>
+          </span>
+        </button>
+        <button type="reset" class="button-secondary">Clear Form</button>
+      </form>
+
+      <div style="margin-top: 30px; padding: 15px; background: #f5f5f5; border-radius: 6px; font-size: 13px; color: #666;">
+        <strong>ℹ️ How it works:</strong>
+        <ol style="margin-left: 20px; margin-top: 10px;">
+          <li>Fill in the required fields (firstname, email, message)</li>
+          <li>Optional fields (lastname, phone) can be left blank</li>
+          <li>Click "Send Message" to submit to the backend</li>
+          <li>Your message will be stored securely in MongoDB</li>
+          <li>📧 You'll receive a confirmation email at your email address</li>
+          <li>The admin will be notified of your message</li>
+          <li>Check the API documentation on the left for integration details</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('contactForm');
+    const messageDiv = document.getElementById('messageDiv');
+    const spinner = document.getElementById('spinner');
+    const buttonText = document.getElementById('buttonText');
+
+    // API Base URL - Change this to match your backend URL
+    const API_URL = 'http://localhost:8050/api/contact';
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Show spinner
+      spinner.style.display = 'inline-block';
+      buttonText.textContent = 'Sending...';
+
+      // Collect form data
+      const formData = {
+        firstname: document.getElementById('firstname').value.trim(),
+        lastname: document.getElementById('lastname').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        message: document.getElementById('message').value.trim(),
+      };
+
+      try {
+        // Send data to backend
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          // Success
+          const emailStatus = data.data && data.data.emailSent 
+            ? '✓ Message sent successfully! Check your email for confirmation.' 
+            : '✓ Message sent successfully! (Email confirmation could not be sent)';
+          showMessage(emailStatus, 'success');
+          form.reset();
+        } else {
+          // Error from server
+          showMessage('✗ Error: ' + (data.message || 'Failed to submit form'), 'error');
+        }
+      } catch (error) {
+        // Network error
+        console.error('Error:', error);
+        showMessage(
+          '✗ Network error: Make sure the backend is running at ' + API_URL,
+          'error'
+        );
+      } finally {
+        // Hide spinner
+        spinner.style.display = 'none';
+        buttonText.textContent = 'Send Message';
+      }
+    });
+
+    function showMessage(text, type) {
+      messageDiv.textContent = text;
+      messageDiv.className = 'message ' + type;
+      messageDiv.style.display = 'block';
+
+      // Hide message after 5 seconds
+      setTimeout(() => {
+        messageDiv.style.display = 'none';
+      }, 5000);
+    }
+  </script>
+</body>
+</html>
