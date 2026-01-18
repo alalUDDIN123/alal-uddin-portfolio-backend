@@ -68,22 +68,7 @@ http://localhost:8050/api
 
 ### Endpoints
 
-#### 1. **Health Check**
-```
-GET /api/health
-```
-**Response:**
-```json
-{
-  "success": true,
-  "message": "Server is running",
-  "timestamp": "2024-01-17T10:30:00.000Z"
-}
-```
-
----
-
-#### 2. **Create Contact (Submit Form)**
+#### 1. **Create Contact (Submit Form)**
 ```
 POST /api/contact
 ```
@@ -171,74 +156,6 @@ GET /api/contact
 
 ---
 
-#### 4. **Get Single Contact**
-```
-GET /api/contact/:id
-```
-
-**Example:**
-```
-GET /api/contact/507f1f77bcf86cd799439011
-```
-
-**Response (200):**
-```json
-{
-  "success": true,
-  "message": "Contact retrieved successfully",
-  "data": {
-    "_id": "507f1f77bcf86cd799439011",
-    "firstname": "John",
-    "lastname": "Doe",
-    "email": "john@example.com",
-    "phone": "1234567890",
-    "message": "Hello...",
-    "createdAt": "2024-01-17T10:30:00.000Z"
-  },
-  "timestamp": "2024-01-17T10:30:00.000Z"
-}
-```
-
-**Error Response (404):**
-```json
-{
-  "success": false,
-  "message": "Contact not found",
-  "timestamp": "2024-01-17T10:30:00.000Z"
-}
-```
-
----
-
-#### 5. **Delete Contact**
-```
-DELETE /api/contact/:id
-```
-
-**Example:**
-```
-DELETE /api/contact/507f1f77bcf86cd799439011
-```
-
-**Response (200):**
-```json
-{
-  "success": true,
-  "message": "Contact deleted successfully",
-  "data": {
-    "_id": "507f1f77bcf86cd799439011",
-    "firstname": "John",
-    "lastname": "Doe",
-    "email": "john@example.com",
-    "phone": "1234567890",
-    "message": "Hello...",
-    "createdAt": "2024-01-17T10:30:00.000Z"
-  },
-  "timestamp": "2024-01-17T10:30:00.000Z"
-}
-```
-
----
 
 ## 💻 Frontend Integration
 
@@ -300,20 +217,6 @@ const submitContact = async () => {
     console.error('Error:', error.response.data);
   }
 };
-```
-
-### Using cURL
-
-```bash
-curl -X POST http://localhost:8050/api/contact \
-  -H "Content-Type: application/json" \
-  -d '{
-    "firstname": "John",
-    "lastname": "Doe",
-    "email": "john@example.com",
-    "phone": "1234567890",
-    "message": "Hello, I would like to connect"
-  }'
 ```
 
 ---

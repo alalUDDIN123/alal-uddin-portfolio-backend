@@ -18,10 +18,6 @@ app.use(express.json());
 // Serve static files from public folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Routes
-app.get('/api/health', (req, res) => {
-  res.status(200).json({ success: true, message: 'Server is running', timestamp: new Date().toISOString() });
-});
 
 // Contact form routes
 app.use('/api/contact', contactRoutes);
@@ -44,5 +40,4 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
   console.log(`📄 Visit http://localhost:${PORT}/ for the contact form`);
-  console.log(`🏥 Health check: http://localhost:${PORT}/api/health`);
 });

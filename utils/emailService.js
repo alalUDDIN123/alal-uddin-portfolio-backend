@@ -5,8 +5,8 @@ const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.EMAIL_USER || 'your-email@gmail.com',
-    pass: process.env.EMAIL_PASSWORD || 'your-app-password',
+    user: process.env.EMAIL_USER ,
+    pass: process.env.EMAIL_PASSWORD
   },
 });
 
@@ -19,7 +19,7 @@ const transporter = nodemailer.createTransport({
 const sendWelcomeEmail = async (userEmail, firstName) => {
   try {
     const mailOptions = {
-      from: process.env.EMAIL_USER || 'alaluddin.dev@gmail.com',
+      from: process.env.EMAIL_USER,
       to: userEmail,
       subject: '✨ Thank you for reaching out!',
       html: `
@@ -68,7 +68,7 @@ const sendAdminNotification = async (contactData) => {
     const { firstname, lastname, email, phone, message } = contactData;
     
     const mailOptions = {
-      from: process.env.EMAIL_USER || 'alaluddin.dev@gmail.com',
+      from: process.env.EMAIL_USER,
       to: process.env.ADMIN_EMAIL || process.env.EMAIL_USER,
       subject: `📬 New Contact Form Submission from ${firstname}`,
       html: `

@@ -4,7 +4,7 @@ const { ErrorMessages } = require('../utils/errorHandler');
 const { sendWelcomeEmail, sendAdminNotification } = require('../utils/emailService');
 
 // Create a new contact form submission
-exports.createContact = async (req, res, next) => {
+const createContact = async (req, res, next) => {
   try {
     const { firstname, lastname, email, phone, message } = req.body;
 
@@ -72,7 +72,7 @@ exports.createContact = async (req, res, next) => {
 };
 
 // Get all contacts
-exports.getAllContacts = async (req, res, next) => {
+const getAllContacts = async (req, res, next) => {
   try {
     const contacts = await Contact.find().sort({ createdAt: -1 });
 
@@ -81,32 +81,8 @@ exports.getAllContacts = async (req, res, next) => {
     next(error);
   }
 };
-// Get contact by ID
-exports.getContactById = async (req, res, next) => {
-  try {
-    const contact = await Contact.findById(req.params.id);
 
-    if (!contact) {
-      return sendNotFound(res, ErrorMessages.CONTACT_NOT_FOUND);
-    }
-
-    sendSuccess(res, 200, 'Contact retrieved successfully', contact);
-  } catch (error) {
-    next(error);
-  }
-};
-
-// Delete contact by ID
-exports.deleteContact = async (req, res, next) => {
-  try {
-    const contact = await Contact.findByIdAndDelete(req.params.id);
-
-    if (!contact) {
-      return sendNotFound(res, ErrorMessages.CONTACT_NOT_FOUND);
-    }
-
-    sendSuccess(res, 200, 'Contact deleted successfully', contact);
-  } catch (error) {
-    next(error);
-  }
+module.exports = {
+  createContact,
+  getAllContacts,
 };
