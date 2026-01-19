@@ -5,7 +5,7 @@ const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.EMAIL_USER ,
+    user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASSWORD
   },
 });
@@ -37,14 +37,52 @@ const sendWelcomeEmail = async (userEmail, firstName) => {
           <div style="background-color: #fff; padding: 20px; border-left: 4px solid #4CAF50; margin: 20px 0; border-radius: 4px;">
             <p style="color: #333; font-size: 14px; margin: 0;">
               <strong>In the meantime:</strong><br>
-              Feel free to check out my portfolio or connect with me on social media. I'm always happy to discuss new opportunities and collaborations.
+              Feel free to check out my portfolio or connect with me on social media.
+              <div style="text-align: center; margin: 30px 0;">
+  <a href="https://alaluddin123.github.io/"
+     target="_blank"
+     style="display: inline-block; margin: 6px;
+            padding: 10px 16px;
+            background: #4CAF50;
+            color: #fff;
+            font-size: 14px;
+            border-radius: 20px;
+            text-decoration: none;">
+    🌐 Portfolio
+  </a>
+
+  <a href="https://www.instagram.com/alal_uddin_23"
+     target="_blank"
+     style="display: inline-block; margin: 6px;
+            padding: 10px 16px;
+            background: #E1306C;
+            color: #fff;
+            font-size: 14px;
+            border-radius: 20px;
+            text-decoration: none;">
+    📸 Instagram
+  </a>
+
+  <a href="https://www.linkedin.com/in/alal-uddin-066444206/"
+     target="_blank"
+     style="display: inline-block; margin: 6px;
+            padding: 10px 16px;
+            background: #0A66C2;
+            color: #fff;
+            font-size: 14px;
+            border-radius: 20px;
+            text-decoration: none;">
+    💼 LinkedIn
+  </a>
+</div>
+
             </p>
           </div>
           
           <p style="color: #999; font-size: 12px; text-align: center; margin-top: 30px; border-top: 1px solid #ddd; padding-top: 20px;">
             Best regards,<br>
             <strong>Alal Uddin</strong><br>
-            Full Stack Developer
+            Software Engineer
           </p>
         </div>
       `,
@@ -66,7 +104,7 @@ const sendWelcomeEmail = async (userEmail, firstName) => {
 const sendAdminNotification = async (contactData) => {
   try {
     const { firstname, lastname, email, phone, message } = contactData;
-    
+
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: process.env.ADMIN_EMAIL || process.env.EMAIL_USER,

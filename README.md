@@ -230,6 +230,8 @@ backend/
 │   └── 404.html            # Custom 404 page
 ├── models/
 │   └── Contact.js          # MongoDB schema
+├── config/
+│   └── db.js          # Connect DB
 ├── controllers/
 │   └── contactController.js # Business logic
 ├── routes/
@@ -238,7 +240,6 @@ backend/
 │   ├── responseHandler.js  # Reusable response utilities
 │   ├── errorHandler.js     # Error definitions
 │   └── globalErrorMiddleware.js # Global error handler
-├── db.js                   # MongoDB connection
 ├── server.js               # Main server file
 ├── package.json            # Dependencies
 ├── .env                    # Environment variables

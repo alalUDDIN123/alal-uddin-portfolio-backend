@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
-const connectDB = require('./db');
+const connectDB = require('./config/db');
 const contactRoutes = require('./routes/contactRoutes');
 const globalErrorHandler = require('./utils/globalErrorMiddleware');
 
@@ -12,7 +12,9 @@ const app = express();
 connectDB();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: '*',
+}));
 app.use(express.json());
 
 // Serve static files from public folder
@@ -39,5 +41,4 @@ app.use(globalErrorHandler);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT}`);
-  console.log(`📄 Visit http://localhost:${PORT}/ for the contact form`);
 });
