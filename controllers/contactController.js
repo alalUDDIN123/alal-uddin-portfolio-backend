@@ -1,7 +1,7 @@
 const Contact = require('../models/Contact');
 const { sendSuccess, sendValidationError, sendError, sendNotFound } = require('../utils/responseHandler');
 const { ErrorMessages } = require('../utils/errorHandler');
-const { sendWelcomeEmail, sendAdminNotification } = require('../utils/emailService');
+// const { sendWelcomeEmail, sendAdminNotification } = require('../utils/emailService');
 
 // Create a new contact form submission
 const createContact = async (req, res, next) => {
@@ -46,25 +46,22 @@ const createContact = async (req, res, next) => {
     await contact.save();
 
     // Send welcome email to user
-    const emailSent = await sendWelcomeEmail(email.trim(), firstname.trim());
-    console.log('Welcome email sent status:', emailSent);
+    // const emailSent = await sendWelcomeEmail(email.trim(), firstname.trim());
+    // console.log('Welcome email sent status:', emailSent);
     
     // Send admin notification
-    await sendAdminNotification({
-      firstname: firstname.trim(),
-      lastname: lastname ? lastname.trim() : '',
-      email: email.trim(),
-      phone: phone ? phone.trim() : '',
-      message: message.trim(),
-    });
+    // await sendAdminNotification({
+    //   firstname: firstname.trim(),
+    //   lastname: lastname ? lastname.trim() : '',
+    //   email: email.trim(),
+    //   phone: phone ? phone.trim() : '',
+    //   message: message.trim(),
+    // });
 
     // Return success response with email status
     sendSuccess(res, 201, 'Contact form submitted successfully', {
       contact,
-      emailSent,
-      message: emailSent 
-        ? 'Welcome email sent to your inbox!' 
-        : 'Contact saved but email could not be sent',
+      message: "We have received your message and will get back to you shortly.",
     });
   } catch (error) {
     next(error);
