@@ -1,6 +1,7 @@
 const Contact = require('../models/Contact');
 const { sendSuccess, sendValidationError, sendError, sendNotFound } = require('../utils/responseHandler');
 const { ErrorMessages } = require('../utils/errorHandler');
+
 // const { sendWelcomeEmail, sendAdminNotification } = require('../utils/emailService');
 
 // Create a new contact form submission
@@ -78,8 +79,23 @@ const getAllContacts = async (req, res, next) => {
     next(error);
   }
 };
+// Delete all contacts (for testing or admin purposes)
+const deleteAllContacts = async (req, res, next) => {
+  try {
+    const result = await Contact.deleteMany({});
+
+    res.status(200).json({
+      success: true,
+      message: "All contacts deleted successfully",
+      deletedCount: result.deletedCount
+    });
+  } catch (error) {
+    next(error); // or handle directly
+  }
+};
 
 module.exports = {
   createContact,
   getAllContacts,
+  deleteAllContacts
 };
