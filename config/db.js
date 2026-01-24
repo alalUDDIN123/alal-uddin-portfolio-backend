@@ -3,14 +3,14 @@ mongoose.set('strictQuery', false);
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI, {
+    const conn = await mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
     console.log(`✅ MongoDB Connected`);
     return conn;
   } catch (error) {
-    console.warn(`⚠️  MongoDB not available - Server running in limited mode`);
+    console.warn(`❌ MongoDB Connection Error: ${error.message}`);
     return null;
   }
 };
